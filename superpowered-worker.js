@@ -2522,7 +2522,7 @@ function _emscripten_random() {
 }
 
 function _emscripten_run_script(ptr) {
-    eval(UTF8ToString(ptr))
+    //eval(UTF8ToString(ptr)) --whl
 }
 
 function _llvm_exp2_f32(x) {
