@@ -92,7 +92,7 @@ function start() {
 
             // downloading the music
             let request = new XMLHttpRequest();
-            request.open('GET', 'test.mp3', true);
+            request.open('GET', 'Ë®ÏçËØÃè°é×à.mp3', true);
             //request.setRequestHeader("Access-Control-Allow-Origin", "*");            
             request.responseType = 'arraybuffer';
             request.onload = function() {
