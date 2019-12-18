@@ -92,7 +92,7 @@ function start() {
 
             // downloading the music
             let request = new XMLHttpRequest();
-            request.open('GET', '水乡素描伴奏.mp3', true);
+            request.open('GET', encodeURIComponent('水乡素描伴奏.mp3'), true);
             //request.setRequestHeader("Access-Control-Allow-Origin", "*");            
             request.responseType = 'arraybuffer';
             request.onload = function() {
