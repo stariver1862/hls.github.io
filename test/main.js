@@ -1,4 +1,4 @@
-import SuperpoweredModule from '../superpowered.js'
+import SuperpoweredModule from './superpowered.js'
 
 var audioContext = null; // Reference to the audio context.
 var audioNode = null;    // This example uses one audio node only.
@@ -13,7 +13,7 @@ function changePitchShift(e) {
     pitchShift += value;
     if (pitchShift < -12) pitchShift = -12; else if (pitchShift > 12) pitchShift = 12;
     // displaying the value
-    document.getElementById('pitchShiftDisplay').innerText = ' pitch shift: ' + ((pitchShift < 1) ? pitchShift : '+' + pitchShift) + ' ';
+    document.getElementById('pitchShiftDisplay').innerText = '变调: ' + ((pitchShift < 1) ? pitchShift : '+' + pitchShift) + ' ';
     // sending the new value to the audio node
     audioNode.sendMessageToAudioScope({ 'pitchShift': pitchShift });
 }
@@ -41,11 +41,11 @@ function togglePlayback(e) {
     let button = document.getElementById('playPause');
     if (button.value == 1) {
         button.value = 0;
-        button.innerText = 'PLAY';
+        button.innerText = '播放';
         audioContext.suspend();
     } else {
         button.value = 1;
-        button.innerText = 'PAUSE';
+        button.innerText = '暂停';
         audioContext.resume();
     }
 }
@@ -64,12 +64,12 @@ function onAudioDecoded(buffer) {
 
     // UI: innerHTML may be ugly but keeps this example small
     content.innerHTML = '\
-        <button id="playPause" value="0">PLAY</button>\
-        <p id="rateDisplay">original tempo</p>\
+        <button id="playPause" value="0">播放</button>\
+        <p id="rateDisplay">原始速度</p>\
         <input id="rateSlider" type="range" min="5000" max="20000" value="10000" style="width: 100%">\
-        <button id="pitchMinus" value="-1">-</button>\
-        <span id="pitchShiftDisplay"> pitch shift: 0 </span>\
-        <button id="pitchPlus" value="1">+</button>\
+        <button id="pitchMinus" value="-1">降</button>\
+        <span id="pitchShiftDisplay"> 变调: 0 </span>\
+        <button id="pitchPlus" value="1">升</button>\
     ';
     document.getElementById('rateSlider').addEventListener('input', changeRate);
     document.getElementById('rateSlider').addEventListener('dblclick', changeRateDbl);
@@ -80,7 +80,7 @@ function onAudioDecoded(buffer) {
 
 // when the START button is clicked
 function start() {
-    content.innerText = 'Creating the audio context and node...';
+    content.innerText = '创建音频处理器...';
     audioContext = Superpowered.getAudioContext(44100);
     let currentPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'));
 
@@ -88,15 +88,15 @@ function start() {
         // runs after the audio node is created
         function(newNode) {
             audioNode = newNode;
-            content.innerText = 'Downloading music...';
+            content.innerText = '下载曲子中...';
 
             // downloading the music
             let request = new XMLHttpRequest();
-            request.open('GET', encodeURIComponent('水乡素描伴奏.mp3'), true);
+            request.open('GET', encodeURIComponent('test.mp3'), true);
             //request.setRequestHeader("Access-Control-Allow-Origin", "*");            
             request.responseType = 'arraybuffer';
             request.onload = function() {
-                content.innerText = 'Decoding audio...';
+                content.innerText = '解码音频...';
                 audioContext.decodeAudioData(request.response, onAudioDecoded);
             }
             request.send();
@@ -115,7 +115,7 @@ Superpowered = SuperpoweredModule({
 
     onReady: function() {
         content = document.getElementById('content');
-        content.innerHTML = '<button id="startButton">START</button>';
+        content.innerHTML = '<button id="startButton">开始</button>';
         document.getElementById('startButton').addEventListener('click', start);
     }
 });

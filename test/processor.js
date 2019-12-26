@@ -1,4 +1,4 @@
-import SuperpoweredModule from '../superpowered.js'
+import SuperpoweredModule from './superpowered.js'
 
 var Superpowered = null;
 
