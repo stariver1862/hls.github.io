@@ -22,7 +22,7 @@ function changePitchShift(e) {
 function changeRate() {
     // displaying the new rate
     let value = document.getElementById('rateSlider').value, text;
-    if (value == 10000) text = 'original tempo';
+    if (value == 10000) text = '原始速度';
     else if (value < 10000) text = '-' + (100 - value / 100).toPrecision(2) + '%';
     else text = '+' + (value / 100 - 100).toPrecision(2) + '%';
     document.getElementById('rateDisplay').innerText = text;
@@ -64,18 +64,20 @@ function onAudioDecoded(buffer) {
 
     // UI: innerHTML may be ugly but keeps this example small
     content.innerHTML = '\
-        <button id="playPause" value="0">播放</button>\
-        <p id="rateDisplay">原始速度</p>\
-        <input id="rateSlider" type="range" min="5000" max="20000" value="10000" style="width: 100%">\
-        <button id="pitchMinus" value="-1">降</button>\
-        <span id="pitchShiftDisplay"> 变调: 0 </span>\
-        <button id="pitchPlus" value="1">升</button>\
+        <center><h2>月光下的凤尾竹</h2><center>\
+        <center><h5>作曲：施光南    演奏：李春华</h5><center>\
+        <center><h5>速度：原速    调式：bB</h5><center>\
+        <div id="progress"><div style="position: relative;height:40;width:100%;border:solid 0px #EEC286;background-color:gainsboro;"><div style="position:absolute;height:40;width:0%; background-color: #EEC286;text-align:right;">0%</div></div></div>\
+        <center><h1> </h1><center>\
+        <button id="playPause" class="round_btn" value="0">播放</button>\
     ';
+    /*
     document.getElementById('rateSlider').addEventListener('input', changeRate);
     document.getElementById('rateSlider').addEventListener('dblclick', changeRateDbl);
     document.getElementById('pitchMinus').addEventListener('click', changePitchShift);
     document.getElementById('pitchPlus').addEventListener('click', changePitchShift);
-    document.getElementById('playPause').addEventListener('click', togglePlayback);
+    */
+   document.getElementById('playPause').addEventListener('click', togglePlayback);
 }
 
 // when the START button is clicked
@@ -104,7 +106,12 @@ function start() {
 
         // runs when the audio node sends a message
         function(message) {
-            console.log('Message received from the audio node: ' + message);
+            if( message.message_type == 'frame_pos' )
+            {
+                let play_pos = message.frame_pos/message.frame_total;
+                document.getElementById('progress').innerHTML='<div style="position: relative;height:40;width:100%;border:solid 0px #EEC286;background-color:gainsboro;"><div style="position:absolute;height:40;width:'+play_pos*100+'%; background-color: #EEC286;text-align:right;">'+Math.round(play_pos*100)+'% </div></div>';
+                //console.log('frame_pos message' + play_pos);
+            }
         }
     );
 }
@@ -116,6 +123,7 @@ Superpowered = SuperpoweredModule({
     onReady: function() {
         content = document.getElementById('content');
         content.innerHTML = '<button id="startButton">开始</button>';
-        document.getElementById('startButton').addEventListener('click', start);
+        //document.getElementById('startButton').addEventListener('click', start);
+        start();
     }
 });
