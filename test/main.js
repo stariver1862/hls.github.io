@@ -142,6 +142,15 @@ function start() {
             request.setRequestHeader("Access-Control-Allow-Origin", "*");            
             request.setRequestHeader("Cache-Control", "public");  
             request.responseType = 'arraybuffer';
+            request.onprogress = function(evt) 
+            {
+               if (evt.lengthComputable) 
+               {  
+                 var percentComplete = (evt.loaded / evt.total) * 100;  
+                 content.innerText = '下载曲子中...'+Math.round(percentComplete)+'%';
+                 //$('#progressbar').progressbar( "option", "value", percentComplete );
+               } 
+            } 
             request.onload = function() {
                 content.innerText = '解码音频...';
                 audioContext.decodeAudioData(request.response, onAudioDecoded);
