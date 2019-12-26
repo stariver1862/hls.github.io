@@ -165,6 +165,19 @@ background: gainsboro; /* Old browsers */
 }
 
 </style>
+
+<script>
+function getQueryString(name) {
+    var reg =new RegExp("(^|&)"+ name +"=([^&]*)(&|$)","i");
+    var r = window.location.search.substr(1).match(reg);
+    if ( r !=null){
+       return decodeURI(r[2]);//修改之后
+    }else{
+        return null;
+    }
+}
+</script>
+
 <body>
     <h1><div id="content">加载中...</div></h1>
     <script src="main.js" type="module"></script>
