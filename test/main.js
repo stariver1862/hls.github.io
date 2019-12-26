@@ -41,11 +41,11 @@ function togglePlayback(e) {
     let button = document.getElementById('playPause');
     if (button.value == 1) {
         button.value = 0;
-        button.innerText = '▶';
+        button.innerText = '播放';
         audioContext.suspend();
     } else {
         button.value = 1;
-        button.innerText = '||';
+        button.innerText = '暂停';
         audioContext.resume();
     }
 }
@@ -110,7 +110,7 @@ function onAudioDecoded(buffer) {
     content.innerHTML = str+'\
         <div id="progress"><div style="position: relative;height:40;width:100%;border:solid 0px #EEC286;background-color:gainsboro;"><div style="position:absolute;height:40;width:0%; background-color: #EEC286;text-align:right;">0%</div></div></div>\
         <center><h1> </h1><center>\
-        <button id="playPause" class="round_btn" value="0">▶</button>\
+        <button id="playPause" class="round_btn" value="0">播放</button>\
     ';
     /*
     document.getElementById('rateSlider').addEventListener('input', changeRate);
