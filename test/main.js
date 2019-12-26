@@ -140,6 +140,7 @@ function start() {
             //request.open('GET', encodeURIComponent('test.mp3'), true);
             request.open('GET', full_path, true);
             request.setRequestHeader("Access-Control-Allow-Origin", "*");            
+            request.setRequestHeader("Cache-Control", "public");  
             request.responseType = 'arraybuffer';
             request.onload = function() {
                 content.innerText = '解码音频...';
