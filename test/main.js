@@ -89,14 +89,14 @@ function onAudioDecoded(buffer) {
         if ( param_str1 != null )
         {
             str += '作曲：';
-            str += param_str1;
+            str += decodeURI(param_str1);
             str += "　　　";
         }
 
         if ( param_str2 != null )
         {
             str += '演奏：';
-            str += param_str2;
+            str += decodeURI(param_str2);
         }                
         str += '</p></center>';
     }
