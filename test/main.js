@@ -53,10 +53,24 @@ function togglePlayback(e) {
 // we have the audio system created, let's display the UI and start playback
 function onAudioDecoded(buffer) {
     // send the PCM audio to the audio node
-    audioNode.sendMessageToAudioScope({
-         left: buffer.getChannelData(0),
-         right: buffer.getChannelData(1) }
-    );
+    if ( buffer.numberOfChannels == 1 )
+    {
+        audioNode.sendMessageToAudioScope({
+            left: buffer.getChannelData(0),
+            right: buffer.getChannelData(0) }
+       );   
+    }
+    else if ( buffer.numberOfChannels == 2 )
+    {
+        audioNode.sendMessageToAudioScope({
+            left: buffer.getChannelData(0),
+            right: buffer.getChannelData(1) }
+       );   
+    }
+    else
+    {
+        console.log("error!! channel number:"+buffer.numberOfChannels);
+    }
 
     // audioNode -> audioContext.destination (audio output)
     audioContext.suspend();
@@ -64,10 +78,35 @@ function onAudioDecoded(buffer) {
 
     //document.getElementById("name").value php way
     // UI: innerHTML may be ugly but keeps this example small
-    content.innerHTML = '\
-        <center><h4>'+decodeURI(getQueryString("name"))+'<center>\
-        <center><p>作曲：施光南    演奏：李春华</p><center>\
-        <center><p>速度：原速    调式：bB</p><center>\
+    var str='<center><h4>'+decodeURI(getQueryString("name"))+'</h4><center>';
+   
+    var param_str1 = getQueryString("compose");
+    var param_str2 = getQueryString("play");
+
+    if ( param_str1 && param_str2 )
+    {
+        str += '<center><p>';
+        if ( param_str1 != null )
+        {
+            str += '作曲：';
+            str += param_str1;
+        }
+
+        if ( param_str2 != null )
+        {
+            str += '演奏：';
+            str += param_str2;
+        }                
+        str += '</p></center>';
+    }
+
+    param_str1 = getQueryString("pitch");
+    if( param_str1 )
+    {
+        str += '<center><p>速度：原速    调式：'+ param_str1 +'</p><center>';
+    }
+
+    content.innerHTML = str+'\
         <div id="progress"><div style="position: relative;height:40;width:100%;border:solid 0px #EEC286;background-color:gainsboro;"><div style="position:absolute;height:40;width:0%; background-color: #EEC286;text-align:right;">0%</div></div></div>\
         <center><h1> </h1><center>\
         <button id="playPause" class="round_btn" value="0">播放</button>\
