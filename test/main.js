@@ -83,13 +83,14 @@ function onAudioDecoded(buffer) {
     var param_str1 = getQueryString("compose");
     var param_str2 = getQueryString("play");
 
-    if ( param_str1 && param_str2 )
+    if ( param_str1 || param_str2 )
     {
         str += '<center><p>';
         if ( param_str1 != null )
         {
             str += '作曲：';
             str += param_str1;
+            str += "　　　";
         }
 
         if ( param_str2 != null )
@@ -103,7 +104,7 @@ function onAudioDecoded(buffer) {
     param_str1 = getQueryString("pitch");
     if( param_str1 )
     {
-        str += '<center><p>速度：原速    调式：'+ param_str1 +'</p><center>';
+        str += '<center><p>速度：原速　　　调式：'+ param_str1 +'</p><center>';
     }
 
     content.innerHTML = str+'\
