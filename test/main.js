@@ -78,7 +78,7 @@ function onAudioDecoded(buffer) {
 
     //document.getElementById("name").value php way
     // UI: innerHTML may be ugly but keeps this example small
-    var str='<center><h4>'+decodeURI(getQueryString("name"))+'</h4><center>';
+    var str='<center><h4>'+decodeURIComponent(getQueryString("name"))+'</h4><center>';
    
     var param_str1 = getQueryString("compose");
     var param_str2 = getQueryString("play");
